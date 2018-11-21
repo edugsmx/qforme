@@ -1,5 +1,11 @@
 package LinkedList;
 
+import java.awt.Button;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+
 import LinkedList.IListaLinear;
 
 public class ListaLinearLigada implements IListaLinear {
@@ -136,6 +142,20 @@ public class ListaLinearLigada implements IListaLinear {
 			atual = atual.getProximo();
 		}
 		return arr;
+	}
+	
+	public ListaLinearLigada shuffle() {
+		ListaLinearLigada newList = new ListaLinearLigada();	
+		int randomIndex = 0;
+		
+		do {
+			randomIndex = ThreadLocalRandom.current().nextInt(0, this.size());
+			Object obj = this.get(randomIndex);
+			newList.add(obj);			
+			this.remove(randomIndex);
+		}while(newList.size() <= this.size()+2);
+
+		return newList;
 	}
 
 }

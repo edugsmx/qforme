@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import LinkedList.ListaLinearLigada;
 import javafx.application.Application;
@@ -35,8 +36,9 @@ public class MillionApp extends Application {
         answers.add("-1");
         
         qPane.setQuestion(new Question("Quanto é: 2 + 2?", answers));
-
+        
         root.getChildren().addAll(qPane, sPane);
+        
         return root;
     }
 
@@ -52,7 +54,7 @@ public class MillionApp extends Application {
 
     private class QuestionPane extends VBox {
         private Text text = new Text();
-        private List<Button> buttons = new ArrayList<>();
+        private ListaLinearLigada buttons = new ListaLinearLigada();
         private Question current;
 
         public QuestionPane() {
@@ -85,11 +87,14 @@ public class MillionApp extends Application {
         public void setQuestion(Question question) {
             current = question;
             text.setText(question.name);
+            buttons = buttons.shuffle();
 
-            Collections.shuffle(buttons);
-            for (int i = 0; i < 4; i++) {
-                buttons.get(i).setText((String) question.answers.get(i));
+            for(int i=0; i<buttons.size(); i++) {
+            	Button btn = (Button) buttons.get(i);
+                btn.setText((String) question.answers.get(i));
             }
+            
+            
         }
     }
 
