@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import LinkedList.ListaLinearLigada;
 import javafx.application.Application;
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
 
 public class MillionApp extends Application {
 
-    private static final Font FONT = Font.font(18);
+	private static final Font FONT = Font.font(18);
 
     private QuestionPane qPane = new QuestionPane();
     private SidePane sPane = new SidePane();
@@ -29,13 +30,7 @@ public class MillionApp extends Application {
         HBox root = new HBox(50);
         root.setPadding(new Insets(50, 50, 50, 50));
         
-        ListaLinearLigada answers = new ListaLinearLigada();
-        answers.add("4");
-        answers.add("5");
-        answers.add("6");
-        answers.add("-1");
-        
-        qPane.setQuestion(new Question("Quanto é: 2 + 2?", answers));
+        nextQuestion();
         
         root.getChildren().addAll(qPane, sPane);
         
@@ -44,11 +39,18 @@ public class MillionApp extends Application {
 
     private void nextQuestion() {
     	ListaLinearLigada answers = new ListaLinearLigada();
-        answers.add("6");
+    	
+    	int num1 = ThreadLocalRandom.current().nextInt(1, 9);
+    	int num2 = ThreadLocalRandom.current().nextInt(1, 9);
+    	int result = num1 + num2;
+    	String resultString = String.valueOf(result);
+    	
+        answers.add(resultString);
         answers.add("5");
         answers.add("-3");
         answers.add("10");
-        qPane.setQuestion(new Question("Quanto é: 3 + 3?", answers));
+        
+        qPane.setQuestion(new Question("Quanto Ã©: " + num1 + " + " + num2 + " ?", answers));
         sPane.selectNext();
     }
 
