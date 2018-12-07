@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import LinkedList.ListaLinearLigada;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -22,24 +23,40 @@ public class MyApp extends Application {
 	private static final Font FONT = Font.font(18);
 
     private QuestionPane qPane = new QuestionPane();
-    private SidePane sPane = new SidePane();
+    private QuestionStackPane sPane = new QuestionStackPane();
     private int count = 0;
+    private LevelPane lPane = new LevelPane();
+    Timer timer = new Timer();
+    int time = 5;
+    Text timeText;
+    private int levelIndex = 1;
+    private int questionCounter = 0;
 
     private Parent createContent() {
     	
         HBox root = new HBox(50);
         root.setPadding(new Insets(50, 50, 50, 50));
         
-        nextQuestion();
+        timeText = new Text();
+        timeText.setFont(FONT);
         
-        root.getChildren().addAll(qPane, sPane);
+        Text levelText = new Text("Nível: 1");
+        lPane.getChildren().add(levelText);
+        
+        nextQuestion(true);
+        
+        root.getChildren().addAll(timeText, levelText, qPane, sPane);
         
         return root;
     }
 
-    private void nextQuestion() {
-    	Timer timer = new Timer();
-    	timer.schedule(new QuestionTime(), 0, 5000);
+    private void nextQuestion(boolean first) {
+    	timer.schedule(new RandomQuestion(), 1000, 1000);
+    	
+    	if (time <= 0) {
+    		timer.schedule(new RandomQuestion(), 1000, 1000);
+    		time = 5;
+    	}
     }
 
     private class QuestionPane extends VBox {
@@ -60,7 +77,7 @@ public class MyApp extends Application {
                 btn.setPrefWidth(120);
                 btn.setOnAction(event -> {
                     if (btn.getText().equals(current.getCorrectAnswer())) {
-                        nextQuestion();
+                        nextQuestion(false);
                     }
                     else {
                         System.out.println("Resposta incorreta");
@@ -86,14 +103,7 @@ public class MyApp extends Application {
             }
         }
     }
-    
-    private class QuestionTime extends TimerTask {
-        public void run() {
-        	randomQuestion(1, 9, count);
-    		count++;
-        }
-    }
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(new Scene(createContent()));
@@ -145,6 +155,34 @@ public class MyApp extends Application {
             
         	qPane.setQuestion(new Question("Quanto e: " + num1 + " + " + num2 + " ?", answers));
             sPane.selectNext();
+        }
+        
+        questionCounter++;
+        
+        if (questionCounter > 15) {
+        	lPane.getChildren().clear();
+        	Text levelText = new Text("Nível: "+(++levelIndex));
+            lPane.getChildren().add(levelText);
+            questionCounter = 1;
+        }
+    }
+    
+    private class RandomQuestion extends TimerTask {
+        public void run() {
+        	time--;
+        	timeText.setText("Tempo: " + time);
+        	System.out.println(time);
+        	Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					randomQuestion(1, 9, count);
+		    		count++;
+		    		
+		    		if (time <= 0) {
+		        		timer.cancel();
+		        	}
+				}
+        	});
         }
     }
 }

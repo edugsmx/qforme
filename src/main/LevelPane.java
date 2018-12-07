@@ -6,5 +6,5 @@ public class LevelPane extends VBox {
 	
 	public LevelPane() {
 		super(2);
-	}
+	}	
 }

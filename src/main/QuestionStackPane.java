@@ -21,8 +21,7 @@ public class QuestionStackPane extends VBox {
 
             getChildren().add(text);
             pilha.pop();
-        }     
-                
+        }          
     }
 
     public void selectNext() {
@@ -45,7 +44,7 @@ public class QuestionStackPane extends VBox {
     public static String vetorToString(Object[] e) {
 		String txt = "";
 		for (int i=0 ; i < e.length ; i++)
-			txt += "Questão: " + e[i];
+			txt += "QuestÃ£o: " + e[i];
 		
 		return txt;
 	}
