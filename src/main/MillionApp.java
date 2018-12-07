@@ -1,9 +1,5 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import LinkedList.ListaLinearLigada;
@@ -32,7 +28,7 @@ public class MillionApp extends Application {
         HBox root = new HBox(50);
         root.setPadding(new Insets(50, 50, 50, 50));
         
-        nextQuestion();
+        nextQuestion(true);
         
         sPane.getChildren().addAll(lPane, qsPane);
         root.getChildren().addAll(qPane, sPane);
@@ -40,7 +36,7 @@ public class MillionApp extends Application {
         return root;
     }
 
-    private void nextQuestion() {
+    private void nextQuestion(boolean first) {
     	ListaLinearLigada answers = new ListaLinearLigada();
     	
     	int num1 = ThreadLocalRandom.current().nextInt(1, 9);
@@ -54,7 +50,8 @@ public class MillionApp extends Application {
         answers.add("10");
         
         qPane.setQuestion(new Question("Quanto é: " + num1 + " + " + num2 + " ?", answers));
-        qsPane.selectNext();
+        if (!first)
+        	qsPane.selectNext();
     }
 
     private class QuestionPane extends VBox {
@@ -74,7 +71,7 @@ public class MillionApp extends Application {
                 btn.setPrefWidth(120);
                 btn.setOnAction(event -> {
                     if (btn.getText().equals(current.getCorrectAnswer())) {
-                        nextQuestion();
+                        nextQuestion(false);
                     }
                     else {
                         System.out.println("Incorrect");
