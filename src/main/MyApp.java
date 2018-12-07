@@ -1,9 +1,7 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 import LinkedList.ListaLinearLigada;
@@ -19,14 +17,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class MillionApp extends Application {
+public class MyApp extends Application {
 
 	private static final Font FONT = Font.font(18);
 
     private QuestionPane qPane = new QuestionPane();
     private SidePane sPane = new SidePane();
+    private int count = 0;
 
     private Parent createContent() {
+    	
         HBox root = new HBox(50);
         root.setPadding(new Insets(50, 50, 50, 50));
         
@@ -38,23 +38,12 @@ public class MillionApp extends Application {
     }
 
     private void nextQuestion() {
-    	ListaLinearLigada answers = new ListaLinearLigada();
-    	
-    	int num1 = ThreadLocalRandom.current().nextInt(1, 9);
-    	int num2 = ThreadLocalRandom.current().nextInt(1, 9);
-    	int result = num1 + num2;
-    	String resultString = String.valueOf(result);
-    	
-        answers.add(resultString);
-        answers.add("5");
-        answers.add("-3");
-        answers.add("10");
-        
-        qPane.setQuestion(new Question("Quanto é: " + num1 + " + " + num2 + " ?", answers));
-        sPane.selectNext();
+    	Timer timer = new Timer();
+    	timer.schedule(new QuestionTime(), 0, 5000);
     }
 
     private class QuestionPane extends VBox {
+    	
         private Text text = new Text();
         private ListaLinearLigada buttons = new ListaLinearLigada();
         private Question current;
@@ -74,7 +63,7 @@ public class MillionApp extends Application {
                         nextQuestion();
                     }
                     else {
-                        System.out.println("Incorrect");
+                        System.out.println("Resposta incorreta");
                     }
                 });
 
@@ -95,11 +84,16 @@ public class MillionApp extends Application {
             	Button btn = (Button) buttons.get(i);
                 btn.setText((String) question.answers.get(i));
             }
-            
-            
         }
     }
-
+    
+    private class QuestionTime extends TimerTask {
+        public void run() {
+        	randomQuestion(1, 9, count);
+    		count++;
+        }
+    }
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(new Scene(createContent()));
@@ -108,5 +102,49 @@ public class MillionApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public void randomQuestion(int decimal1, int decimal2, int count) {
+    	
+    	ListaLinearLigada answers = new ListaLinearLigada();
+    
+    	int num1 = ThreadLocalRandom.current().nextInt(decimal1, decimal2);
+    	int num2 = ThreadLocalRandom.current().nextInt(decimal1, decimal2);
+    	int num3 = ThreadLocalRandom.current().nextInt(decimal1, decimal2);
+    	int resultLevel1 = num1 + num2;
+    	int resultLevel2 = num1 - num2 + num3;
+    	int resultLevel3 = num1 + num2 * num3;
+    	
+    	String result1String = String.valueOf(resultLevel1);
+    	String result2String = String.valueOf(resultLevel2);
+    	String result3String = String.valueOf(resultLevel3);
+        
+        if (count > 2) {
+        	answers.add(result2String);
+            answers.add("7");
+            answers.add("-2");
+            answers.add("12");
+        	
+        	qPane.setQuestion(new Question("Quanto e: " + num1 + " - " + num2 + " + " + num3 + " ?" , answers));
+            sPane.selectNext();
+            
+        } else if (count > 3) {
+        	answers.add(result3String);
+            answers.add("2");
+            answers.add("-4");
+            answers.add("13");
+        	
+        	qPane.setQuestion(new Question("Quanto e: " + num1 + " + " + num2 + " * " + num3 + " ?", answers));
+            sPane.selectNext();
+            
+        } else {
+        	answers.add(result1String);
+            answers.add("5");
+            answers.add("-3");
+            answers.add("10");
+            
+        	qPane.setQuestion(new Question("Quanto e: " + num1 + " + " + num2 + " ?", answers));
+            sPane.selectNext();
+        }
     }
 }

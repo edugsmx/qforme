@@ -38,7 +38,7 @@ public class SidePane extends VBox {
     public static String vetorToString(Object[] e) {
 		String txt = "";
 		for (int i=0 ; i < e.length ; i++)
-			txt += "Questão: " + e[i];
+			txt += "Questao: " + e[i];
 		
 		return txt;
 	}

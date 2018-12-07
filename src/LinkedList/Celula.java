@@ -1,6 +1,7 @@
 package LinkedList;
 
 public class Celula {
+	
 	private Object elemento;
 	private Celula proximo;
 	

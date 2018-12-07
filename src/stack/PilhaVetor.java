@@ -1,40 +1,23 @@
 package stack;
 
 public class PilhaVetor implements IStack {
-	
-	/**
-	 * Propriedade que armazena os elementos da pilha.
-	 */
+
 	private Object[] pilha;
 	
-	/**
-	 * Constante que define a quantidade de elementos da pilha.
-	 */
 	private static final int MAX_ELEMENTS = 100;
 	
-	/**
-	 * Indica a posi��o do �ltimo elemento inserido na pilha.
-	 */
 	private int topo;
-	
-	/**
-	 * Construtor padr�o
-	 */
+
 	public PilhaVetor() {
 		this.pilha = new Object[MAX_ELEMENTS];
 		this.topo = -1;
 	}
 	
-	/**
-	 * Construtor que recebe a quantidade de elementos 
-	 * que a pilha ir� armazenar.
-	 */
 	public PilhaVetor(int tamanho) {
 		this.pilha = new Object[tamanho];
 		this.topo = -1;
 	}
 	
-
 	@Override
 	public boolean isEmpty() {
 		return (this.topo == -1);
@@ -70,7 +53,6 @@ public class PilhaVetor implements IStack {
 		
 		return elementos;
 	}
-
 }
 
 

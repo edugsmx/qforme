@@ -1,10 +1,6 @@
 package LinkedList;
 
-import java.awt.Button;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 import LinkedList.IListaLinear;
 
@@ -157,5 +153,4 @@ public class ListaLinearLigada implements IListaLinear {
 
 		return newList;
 	}
-
 }
