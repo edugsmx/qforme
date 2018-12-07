@@ -1,13 +1,13 @@
 package main;
 
-import LinkedList.ListaLinearLigada;
+import linkedlist.ListaLinearLigada;
 
-public class Question {
+public class QuestionNode {
 	
     public String name;
     public ListaLinearLigada answers;
 
-    public Question(String name, ListaLinearLigada answers) {
+    public QuestionNode(String name, ListaLinearLigada answers) {
         this.name = name;
         this.answers = answers;
     }

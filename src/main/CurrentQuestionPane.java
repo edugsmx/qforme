@@ -5,13 +5,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import stack.PilhaVetor;
 
-public class QuestionStackPane extends VBox {
+public class CurrentQuestionPane extends VBox {
 	
     private int current = 1;
     PilhaVetor pilha = new PilhaVetor(15);
-    private int levelIndex = 0;
     
-    public QuestionStackPane() {
+    public CurrentQuestionPane() {
         super(8);
         
         for (int i = 15; i > 0; i--) {

@@ -1,8 +1,8 @@
-package LinkedList;
+package linkedlist;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import LinkedList.IListaLinear;
+import linkedlist.IListaLinear;
 
 public class ListaLinearLigada implements IListaLinear {
 	
