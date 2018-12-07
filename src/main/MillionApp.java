@@ -23,12 +23,17 @@ public class MillionApp extends Application {
     private SidePane sPane = new SidePane();
     private QuestionStackPane qsPane = new QuestionStackPane();
     private LevelPane lPane = new LevelPane();
+    private int levelIndex = 1;
+    private int questionCounter = 0;
 
     private Parent createContent() {
         HBox root = new HBox(50);
         root.setPadding(new Insets(50, 50, 50, 50));
         
-        nextQuestion(true);
+        nextQuestion(true);       
+        
+        Text levelText = new Text("Nível: 1");
+        lPane.getChildren().add(levelText);
         
         sPane.getChildren().addAll(lPane, qsPane);
         root.getChildren().addAll(qPane, sPane);
@@ -52,6 +57,15 @@ public class MillionApp extends Application {
         qPane.setQuestion(new Question("Quanto é: " + num1 + " + " + num2 + " ?", answers));
         if (!first)
         	qsPane.selectNext();
+        
+        questionCounter++;
+        
+        if (questionCounter > 15) {
+        	lPane.getChildren().clear();
+        	Text levelText = new Text("Nível: "+(++levelIndex));
+            lPane.getChildren().add(levelText);
+            questionCounter = 1;
+        }
     }
 
     private class QuestionPane extends VBox {
